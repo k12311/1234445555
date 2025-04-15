@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>韓文朗讀測試</title>
+</head>
+<body style="text-align:center; padding:50px;">
+  <h2>請點下面按鈕測試韓文朗讀</h2>
+  <button onclick="speak('오이를 먹어요')">朗讀：오이를 먹어요</button>
+
+  <script>
+    function speak(text) {
+      if (!('speechSynthesis' in window)) {
+        alert("你的瀏覽器不支援語音朗讀");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ko-KR';
+      window.speechSynthesis.speak(utter);
+    }
+  </script>
+</body>
+</html>
