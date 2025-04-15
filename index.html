@@ -8,17 +8,32 @@
   <h2>請點下面按鈕測試韓文朗讀</h2>
   <button onclick="speak('오이를 먹어요')">朗讀：오이를 먹어요</button>
 
-  <script>
-    function speak(text) {
-      if (!('speechSynthesis' in window)) {
-        alert("你的瀏覽器不支援語音朗讀");
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'ko-KR';
-      window.speechSynthesis.speak(utter);
+  <<script>
+  function speak(text) {
+    if (!('speechSynthesis' in window)) {
+      alert("你的瀏覽器不支援語音朗讀");
+      return;
     }
-  </script>
+
+    // 找到韓文語音（Yuna）
+    const voices = window.speechSynthesis.getVoices();
+    const koreanVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'));
+
+    if (!koreanVoice) {
+      alert("找不到韓文語音（請確認 Yuna 已下載）");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'ko-KR';
+    utter.voice = koreanVoice; // 強制使用 Yuna
+    window.speechSynthesis.speak(utter);
+  }
+
+  // 某些瀏覽器需要先載入語音清單
+  window.speechSynthesis.onvoiceschanged = () => {};
+</script>
+
 </body>
 </html>
